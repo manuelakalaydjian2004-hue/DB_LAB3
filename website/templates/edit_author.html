@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="tabs">
+    <a href="{{ url_for('index') }}" class="tab">📖 Books</a>
+    <a href="{{ url_for('authors_page') }}" class="tab">👤 Authors</a>
+</div>
+<div class="card">
+    <div class="card-header"><h2>✏️ Edit Author (ID: {{ author.author_id }})</h2></div>
+    <div class="card-body" style="padding:20px">
+        <form method="POST" action="{{ url_for('edit_author', author_id=author.author_id) }}" enctype="multipart/form-data">
+            <input type="hidden" name="current_photo" value="{{ author.photo or '' }}">
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" value="{{ author.name }}" required>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <input type="text" name="country" value="{{ author.country or '' }}">
+            </div>
+            <div class="form-group">
+                <label>🖼️ Photo (Bonus)</label>
+                {% if author.photo %}
+                <div style="margin-bottom:8px">
+                    <img src="{{ url_for('static', filename=author.photo) }}" class="author-photo" style="width:50px;height:50px">
+                    <label style="font-size:12px"><input type="checkbox" name="remove_photo" value="1"> Remove photo</label>
+                </div>
+                {% endif %}
+                <input type="file" name="photo" accept="image/*">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Save Changes</button>
+                <a href="{{ url_for('authors_page') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

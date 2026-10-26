@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Library - Books & Authors</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; background: #f5f5f5; color: #333; min-height: 100vh; display: flex; flex-direction: column; }
+        .header { background: white; border-bottom: 2px solid #e0e0e0; padding: 16px 24px; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .header h1 { font-size: 24px; color: #1a7a4c; }
+        .header p { font-size: 13px; color: #888; margin-top: 2px; }
+        .main { flex: 1; max-width: 1000px; width: 100%; margin: 0 auto; padding: 24px; }
+        .tabs { display: flex; gap: 0; margin-bottom: 20px; border-bottom: 2px solid #e0e0e0; }
+        .tab { padding: 10px 24px; font-size: 15px; font-weight: 500; color: #666; text-decoration: none; border-bottom: 3px solid transparent; }
+        .tab:hover { color: #1a7a4c; }
+        .tab.active { color: #1a7a4c; border-bottom-color: #1a7a4c; }
+        .card { background: white; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.08); overflow: hidden; }
+        .card-header { padding: 16px 20px; border-bottom: 1px solid #f0f0f0; display: flex; justify-content: space-between; align-items: center; }
+        .card-header h2 { font-size: 18px; }
+        table { width: 100%; border-collapse: collapse; }
+        th { background: #f8f9fa; padding: 12px 16px; text-align: left; font-size: 13px; font-weight: 600; color: #555; border-bottom: 1px solid #e0e0e0; }
+        td { padding: 10px 16px; border-bottom: 1px solid #f0f0f0; font-size: 14px; }
+        tr:hover td { background: #f8fffe; }
+        .btn { display: inline-flex; align-items: center; gap: 6px; padding: 8px 16px; border: none; border-radius: 6px; font-size: 14px; font-weight: 500; cursor: pointer; text-decoration: none; }
+        .btn-primary { background: #1a7a4c; color: white; }
+        .btn-primary:hover { background: #14613c; }
+        .btn-secondary { background: #f0f0f0; color: #555; }
+        .btn-danger { background: #dc3545; color: white; }
+        .btn-warning { background: #ffc107; color: #333; }
+        .btn-sm { padding: 5px 10px; font-size: 12px; }
+        .book-cover { width: 36px; height: 50px; object-fit: cover; border-radius: 3px; }
+        .no-cover { width: 36px; height: 50px; background: #f0f0f0; border-radius: 3px; display: flex; align-items: center; justify-content: center; }
+        .author-photo { width: 36px; height: 36px; object-fit: cover; border-radius: 50%; }
+        .no-photo { width: 36px; height: 36px; background: #f0f0f0; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
+        .flash { padding: 12px 20px; border-radius: 6px; margin-bottom: 16px; font-size: 14px; }
+        .flash-success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .flash-error { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .form-group { margin-bottom: 16px; }
+        .form-group label { display: block; font-size: 13px; font-weight: 600; color: #555; margin-bottom: 4px; }
+        .form-group input, .form-group select { width: 100%; padding: 8px 12px; border: 1px solid #ddd; border-radius: 6px; font-size: 14px; }
+        .form-group input:focus, .form-group select:focus { outline: none; border-color: #1a7a4c; }
+        .form-actions { display: flex; gap: 10px; margin-top: 20px; }
+        .footer { background: white; border-top: 1px solid #e0e0e0; padding: 12px; text-align: center; font-size: 12px; color: #888; margin-top: auto; }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>📚 Library</h1>
+        <p>Lab 3 Part II — Books & Authors</p>
+    </div>
+    <div class="main">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            {% for category, message in messages %}
+            <div class="flash flash-{{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+    <div class="footer">Library Database — Lab 3 Part II | Alexandria National University</div>
+</body>
+</html>

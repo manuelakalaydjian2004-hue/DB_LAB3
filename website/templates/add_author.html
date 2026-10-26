@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="tabs">
+    <a href="{{ url_for('index') }}" class="tab">📖 Books</a>
+    <a href="{{ url_for('authors_page') }}" class="tab">👤 Authors</a>
+</div>
+<div class="card">
+    <div class="card-header"><h2>+ Add New Author</h2></div>
+    <div class="card-body" style="padding:20px">
+        <form method="POST" action="{{ url_for('add_author') }}" enctype="multipart/form-data">
+            <div class="form-group">
+                <label>Author ID</label>
+                <input type="number" name="author_id" value="{{ next_id }}" required>
+            </div>
+            <div class="form-group">
+                <label>Name</label>
+                <input type="text" name="name" placeholder="Enter author name" required>
+            </div>
+            <div class="form-group">
+                <label>Country</label>
+                <input type="text" name="country" placeholder="Enter country">
+            </div>
+            <div class="form-group">
+                <label>🖼️ Photo (Bonus)</label>
+                <input type="file" name="photo" accept="image/*">
+            </div>
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary">Add Author</button>
+                <a href="{{ url_for('authors_page') }}" class="btn btn-secondary">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}

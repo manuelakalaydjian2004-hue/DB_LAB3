@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="tabs">
+    <a href="{{ url_for('index') }}" class="tab {% if tab == 'books' %}active{% endif %}">📖 Books</a>
+    <a href="{{ url_for('authors_page') }}" class="tab {% if tab == 'authors' %}active{% endif %}">👤 Authors</a>
+</div>
+
+{% if tab == 'books' %}
+<div class="card">
+    <div class="card-header">
+        <h2>📖 Books ({{ books|length }})</h2>
+        <a href="{{ url_for('add_book') }}" class="btn btn-primary">+ Add Book</a>
+    </div>
+    <div class="card-body" style="padding:0">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:50px">Cover</th>
+                    <th style="width:50px">ID</th>
+                    <th>Title</th>
+                    <th style="width:80px">Price</th>
+                    <th style="width:80px">author_id</th>
+                    <th style="width:120px">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for book in books %}
+                <tr>
+                    <td>
+                        {% if book.cover %}
+                            <img src="{{ url_for('static', filename=book.cover) }}" alt="{{ book.title }}" class="book-cover">
+                        {% else %}
+                            <div class="no-cover">📖</div>
+                        {% endif %}
+                    </td>
+                    <td>{{ book.book_id }}</td>
+                    <td><strong>{{ book.title }}</strong></td>
+                    <td>${{ "%.2f"|format(book.price) if book.price else '—' }}</td>
+                    <td>{{ book.author_id if book.author_id else '—' }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_book', book_id=book.book_id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+                        <form method="POST" action="{{ url_for('delete_book', book_id=book.book_id) }}" style="display:inline" onsubmit="return confirm('Delete this book?')">
+                            <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" style="text-align:center;padding:30px;color:#999">No books yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+{% elif tab == 'authors' %}
+<div class="card">
+    <div class="card-header">
+        <h2>👤 Authors ({{ authors|length }})</h2>
+        <a href="{{ url_for('add_author') }}" class="btn btn-primary">+ Add Author</a>
+    </div>
+    <div class="card-body" style="padding:0">
+        <table>
+            <thead>
+                <tr>
+                    <th style="width:50px">Photo</th>
+                    <th style="width:50px">ID</th>
+                    <th>Name</th>
+                    <th>Country</th>
+                    <th style="width:60px">Books</th>
+                    <th style="width:120px">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for author in authors %}
+                <tr>
+                    <td>
+                        {% if author.photo %}
+                            <img src="{{ url_for('static', filename=author.photo) }}" alt="{{ author.name }}" class="author-photo">
+                        {% else %}
+                            <div class="no-photo">👤</div>
+                        {% endif %}
+                    </td>
+                    <td>{{ author.author_id }}</td>
+                    <td><strong>{{ author.name }}</strong></td>
+                    <td>{{ author.country or '—' }}</td>
+                    <td>{{ author.book_count }}</td>
+                    <td>
+                        <a href="{{ url_for('edit_author', author_id=author.author_id) }}" class="btn btn-warning btn-sm">✏️ Edit</a>
+                        <form method="POST" action="{{ url_for('delete_author', author_id=author.author_id) }}" style="display:inline" onsubmit="return confirm('Delete this author? All their books will also be deleted (CASCADE).')">
+                            <button type="submit" class="btn btn-danger btn-sm">🗑️</button>
+                        </form>
+                    </td>
+                </tr>
+                {% else %}
+                <tr><td colspan="6" style="text-align:center;padding:30px;color:#999">No authors yet.</td></tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endif %}
+{% endblock %}
